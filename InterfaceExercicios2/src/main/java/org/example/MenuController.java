@@ -8,16 +8,15 @@ import java.io.IOException;
 public class MenuController {
 
     @FXML
-    private void abrirImagem1(ActionEvent event) throws IOException { App.setRoot("Imagem1"); }
+    private void abrirImagem1(ActionEvent event) throws IOException { App.setRoot("Imagem1/Imagem1"); }
 
     @FXML
-    private void abrirImagem2(ActionEvent event) throws IOException { App.setRoot("Imagem2"); }
+    private void abrirImagem2(ActionEvent event) throws IOException { App.setRoot("Imagem2/Imagem2"); }
 
     @FXML
-    private void abrirImagem3(ActionEvent event) throws IOException { App.setRoot("Imagem3"); }
+    private void abrirImagem3(ActionEvent event) throws IOException { App.setRoot("Imagem3/Imagem3"); }
 
     @FXML
-    private void abrirImagem4(ActionEvent event) throws IOException { App.setRoot("Imagem4"); }
-
-
+    private void abrirImagem4(ActionEvent event) throws IOException { App.setRoot("Imagem4/Imagem4"); }
 }
+
