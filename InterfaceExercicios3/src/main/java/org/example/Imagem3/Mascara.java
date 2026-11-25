@@ -5,6 +5,9 @@ public class Mascara {
     private String origemCultural;
     private boolean estaExposta;
 
+    // Construtor vazio (essencial para mapeamento DAO)
+    public Mascara() {}
+
     public Mascara(String material, String origemCultural) {
         this.material = material;
         this.origemCultural = origemCultural;
@@ -16,6 +19,11 @@ public class Mascara {
     public void restaurar() { System.out.println("Restaurando máscara de " + material + "."); }
 
     public String getMaterial() { return material; }
+    public void setMaterial(String material) { this.material = material; }
+
     public String getOrigemCultural() { return origemCultural; }
+    public void setOrigemCultural(String origemCultural) { this.origemCultural = origemCultural; }
+
     public boolean isEstaExposta() { return estaExposta; }
+    public void setEstaExposta(boolean estaExposta) { this.estaExposta = estaExposta; }
 }

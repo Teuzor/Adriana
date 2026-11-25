@@ -5,6 +5,9 @@ public class Escultura {
     private double alturaCm;
     private double pesoKg;
 
+    // Construtor vazio (essencial para mapeamento DAO)
+    public Escultura() {}
+
     public Escultura(String estilo, double alturaCm, double pesoKg) {
         this.estilo = estilo;
         this.alturaCm = alturaCm;
@@ -16,6 +19,11 @@ public class Escultura {
     public double avaliarValor() { return alturaCm * 15.0; }
 
     public String getEstilo() { return estilo; }
+    public void setEstilo(String estilo) { this.estilo = estilo; }
+
     public double getAlturaCm() { return alturaCm; }
+    public void setAlturaCm(double alturaCm) { this.alturaCm = alturaCm; }
+
     public double getPesoKg() { return pesoKg; }
+    public void setPesoKg(double pesoKg) { this.pesoKg = pesoKg; }
 }

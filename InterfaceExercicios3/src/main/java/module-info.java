@@ -5,6 +5,7 @@ module org.example {
 
     opens org.example to javafx.fxml;
     opens org.example.Imagem2 to javafx.fxml;
+    opens org.example.controller to javafx.fxml;
     opens org.example.Imagem3 to javafx.fxml;
 
     exports org.example;

@@ -5,6 +5,9 @@ public class Ciclista {
     private int idade;
     private boolean usaCapacete;
 
+    // Construtor vazio (essencial para mapeamento DAO)
+    public Ciclista() {}
+
     public Ciclista(String nome, int idade) {
         this.nome = nome;
         this.idade = idade;
@@ -17,7 +20,10 @@ public class Ciclista {
 
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
+
     public int getIdade() { return idade; }
     public void setIdade(int idade) { this.idade = idade; }
+
     public boolean isUsaCapacete() { return usaCapacete; }
+    public void setUsaCapacete(boolean usaCapacete) { this.usaCapacete = usaCapacete; }
 }

@@ -5,6 +5,9 @@ public class Bicicleta {
     private int marchaAtual;
     private double velocidade;
 
+    // Construtor vazio (essencial para mapeamento DAO)
+    public Bicicleta() {}
+
     public Bicicleta(String modelo, int marchaAtual, double velocidade) {
         this.modelo = modelo;
         this.marchaAtual = marchaAtual;
@@ -17,6 +20,10 @@ public class Bicicleta {
 
     public String getModelo() { return modelo; }
     public void setModelo(String modelo) { this.modelo = modelo; }
+
     public int getMarchaAtual() { return marchaAtual; }
+    public void setMarchaAtual(int marchaAtual) { this.marchaAtual = marchaAtual; }
+
     public double getVelocidade() { return velocidade; }
+    public void setVelocidade(double velocidade) { this.velocidade = velocidade; }
 }
