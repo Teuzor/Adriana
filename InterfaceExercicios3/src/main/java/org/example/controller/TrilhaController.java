@@ -1,14 +1,15 @@
 package org.example.controller;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.App;
 import org.example.Imagem2.Trilha;
 import org.example.dao.TrilhaDAO;
 
 import java.io.IOException;
-import java.util.List;
 
 public class TrilhaController {
 
@@ -16,12 +17,20 @@ public class TrilhaController {
     @FXML private TextField txtDistancia;
     @FXML private TextField txtDificuldade;
     @FXML private TextField txtDeletar;
-    @FXML private TextArea txtAreaLista;
+
+    @FXML private TableView<Trilha> tabelaTrilhas;
+    @FXML private TableColumn<Trilha, String> colTerreno;
+    @FXML private TableColumn<Trilha, Double> colDistancia;
+    @FXML private TableColumn<Trilha, String> colDificuldade;
 
     private final TrilhaDAO dao = new TrilhaDAO();
 
     @FXML
     public void initialize() {
+        colTerreno.setCellValueFactory(new PropertyValueFactory<>("tipoTerreno"));
+        colDistancia.setCellValueFactory(new PropertyValueFactory<>("distanciaKm"));
+        colDificuldade.setCellValueFactory(new PropertyValueFactory<>("dificuldade"));
+
         atualizarListaNaTela();
     }
 
@@ -65,15 +74,7 @@ public class TrilhaController {
     }
 
     private void atualizarListaNaTela() {
-        List<Trilha> lista = dao.getLista();
-        StringBuilder sb = new StringBuilder();
-        for (Trilha t : lista) {
-            sb.append("Terreno: ").append(t.getTipoTerreno())
-                    .append(" | Distância: ").append(t.getDistanciaKm()).append(" km")
-                    .append(" | Dificuldade: ").append(t.getDificuldade())
-                    .append("\n----------------------------------------\n");
-        }
-        txtAreaLista.setText(sb.toString());
+        tabelaTrilhas.setItems(FXCollections.observableArrayList(dao.getLista()));
     }
 
     private void limparCampos() {

@@ -1,14 +1,16 @@
 package org.example.controller;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.App;
 import org.example.Imagem3.Painel;
 import org.example.dao.PainelDAO;
 
 import java.io.IOException;
-import java.util.List;
 
 public class PainelController {
 
@@ -16,12 +18,21 @@ public class PainelController {
     @FXML private TextField txtQtdItens;
     @FXML private CheckBox chkFixado;
     @FXML private TextField txtDeletar;
-    @FXML private TextArea txtAreaLista;
+
+    @FXML private TableView<Painel> tabelaPaineis;
+    @FXML private TableColumn<Painel, String> colTextura;
+    @FXML private TableColumn<Painel, Integer> colQtdItens;
+    @FXML private TableColumn<Painel, String> colFixado;
 
     private final PainelDAO dao = new PainelDAO();
 
     @FXML
     public void initialize() {
+        colTextura.setCellValueFactory(new PropertyValueFactory<>("texturaFundo"));
+        colQtdItens.setCellValueFactory(new PropertyValueFactory<>("quantidadeItens"));
+        colFixado.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().isFixadoNaParede() ? "Sim" : "Não"));
+
         atualizarListaNaTela();
     }
 
@@ -70,15 +81,7 @@ public class PainelController {
     }
 
     private void atualizarListaNaTela() {
-        List<Painel> lista = dao.getLista();
-        StringBuilder sb = new StringBuilder();
-        for (Painel p : lista) {
-            sb.append("Textura: ").append(p.getTexturaFundo())
-                    .append(" | Itens: ").append(p.getQuantidadeItens())
-                    .append(" | Fixado: ").append(p.isFixadoNaParede() ? "Sim" : "Não")
-                    .append("\n----------------------------------------\n");
-        }
-        txtAreaLista.setText(sb.toString());
+        tabelaPaineis.setItems(FXCollections.observableArrayList(dao.getLista()));
     }
 
     private void limparCampos() {

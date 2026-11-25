@@ -1,14 +1,15 @@
 package org.example.controller;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.App;
 import org.example.Imagem3.Escultura;
 import org.example.dao.EsculturaDAO;
 
 import java.io.IOException;
-import java.util.List;
 
 public class EsculturaController {
 
@@ -16,12 +17,20 @@ public class EsculturaController {
     @FXML private TextField txtAltura;
     @FXML private TextField txtPeso;
     @FXML private TextField txtDeletar;
-    @FXML private TextArea txtAreaLista;
+
+    @FXML private TableView<Escultura> tabelaEsculturas;
+    @FXML private TableColumn<Escultura, String> colEstilo;
+    @FXML private TableColumn<Escultura, Double> colAltura;
+    @FXML private TableColumn<Escultura, Double> colPeso;
 
     private final EsculturaDAO dao = new EsculturaDAO();
 
     @FXML
     public void initialize() {
+        colEstilo.setCellValueFactory(new PropertyValueFactory<>("estilo"));
+        colAltura.setCellValueFactory(new PropertyValueFactory<>("alturaCm"));
+        colPeso.setCellValueFactory(new PropertyValueFactory<>("pesoKg"));
+
         atualizarListaNaTela();
     }
 
@@ -65,15 +74,7 @@ public class EsculturaController {
     }
 
     private void atualizarListaNaTela() {
-        List<Escultura> lista = dao.getLista();
-        StringBuilder sb = new StringBuilder();
-        for (Escultura e : lista) {
-            sb.append("Estilo: ").append(e.getEstilo())
-                    .append(" | Altura: ").append(e.getAlturaCm()).append(" cm")
-                    .append(" | Peso: ").append(e.getPesoKg()).append(" kg")
-                    .append("\n----------------------------------------\n");
-        }
-        txtAreaLista.setText(sb.toString());
+        tabelaEsculturas.setItems(FXCollections.observableArrayList(dao.getLista()));
     }
 
     private void limparCampos() {

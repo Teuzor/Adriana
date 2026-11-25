@@ -1,14 +1,15 @@
 package org.example.controller;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.App;
 import org.example.Imagem2.Bicicleta;
 import org.example.dao.BicicletaDAO;
 
 import java.io.IOException;
-import java.util.List;
 
 public class BicicletaController {
 
@@ -16,12 +17,20 @@ public class BicicletaController {
     @FXML private TextField txtMarcha;
     @FXML private TextField txtVelocidade;
     @FXML private TextField txtDeletar;
-    @FXML private TextArea txtAreaLista;
+
+    @FXML private TableView<Bicicleta> tabelaBicicletas;
+    @FXML private TableColumn<Bicicleta, String> colModelo;
+    @FXML private TableColumn<Bicicleta, Integer> colMarcha;
+    @FXML private TableColumn<Bicicleta, Double> colVelocidade;
 
     private final BicicletaDAO dao = new BicicletaDAO();
 
     @FXML
     public void initialize() {
+        colModelo.setCellValueFactory(new PropertyValueFactory<>("modelo"));
+        colMarcha.setCellValueFactory(new PropertyValueFactory<>("marchaAtual"));
+        colVelocidade.setCellValueFactory(new PropertyValueFactory<>("velocidade"));
+
         atualizarListaNaTela();
     }
 
@@ -65,15 +74,7 @@ public class BicicletaController {
     }
 
     private void atualizarListaNaTela() {
-        List<Bicicleta> lista = dao.getLista();
-        StringBuilder sb = new StringBuilder();
-        for (Bicicleta b : lista) {
-            sb.append("Modelo: ").append(b.getModelo())
-                    .append(" | Marcha: ").append(b.getMarchaAtual())
-                    .append(" | Velocidade: ").append(b.getVelocidade()).append(" km/h")
-                    .append("\n----------------------------------------\n");
-        }
-        txtAreaLista.setText(sb.toString());
+        tabelaBicicletas.setItems(FXCollections.observableArrayList(dao.getLista()));
     }
 
     private void limparCampos() {

@@ -1,14 +1,16 @@
 package org.example.controller;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.App;
 import org.example.Imagem2.Ciclista;
 import org.example.dao.CiclistaDAO;
 
 import java.io.IOException;
-import java.util.List;
 
 public class CiclistaController {
 
@@ -16,12 +18,21 @@ public class CiclistaController {
     @FXML private TextField txtIdade;
     @FXML private CheckBox chkUsaCapacete;
     @FXML private TextField txtDeletar;
-    @FXML private TextArea txtAreaLista;
+
+    @FXML private TableView<Ciclista> tabelaCiclistas;
+    @FXML private TableColumn<Ciclista, String> colNome;
+    @FXML private TableColumn<Ciclista, Integer> colIdade;
+    @FXML private TableColumn<Ciclista, String> colCapacete;
 
     private final CiclistaDAO dao = new CiclistaDAO();
 
     @FXML
     public void initialize() {
+        colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        colIdade.setCellValueFactory(new PropertyValueFactory<>("idade"));
+        colCapacete.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().isUsaCapacete() ? "Sim" : "Não"));
+
         atualizarListaNaTela();
     }
 
@@ -67,15 +78,7 @@ public class CiclistaController {
     }
 
     private void atualizarListaNaTela() {
-        List<Ciclista> lista = dao.getLista();
-        StringBuilder sb = new StringBuilder();
-        for (Ciclista c : lista) {
-            sb.append("Nome: ").append(c.getNome())
-                    .append(" | Idade: ").append(c.getIdade())
-                    .append(" | Capacete: ").append(c.isUsaCapacete() ? "Sim" : "Não")
-                    .append("\n----------------------------------------\n");
-        }
-        txtAreaLista.setText(sb.toString());
+        tabelaCiclistas.setItems(FXCollections.observableArrayList(dao.getLista()));
     }
 
     private void limparCampos() {

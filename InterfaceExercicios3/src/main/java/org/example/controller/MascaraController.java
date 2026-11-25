@@ -1,14 +1,16 @@
 package org.example.controller;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.App;
 import org.example.Imagem3.Mascara;
 import org.example.dao.MascaraDAO;
 
 import java.io.IOException;
-import java.util.List;
 
 public class MascaraController {
 
@@ -16,12 +18,21 @@ public class MascaraController {
     @FXML private TextField txtOrigem;
     @FXML private CheckBox chkExposta;
     @FXML private TextField txtDeletar;
-    @FXML private TextArea txtAreaLista;
+
+    @FXML private TableView<Mascara> tabelaMascaras;
+    @FXML private TableColumn<Mascara, String> colMaterial;
+    @FXML private TableColumn<Mascara, String> colOrigem;
+    @FXML private TableColumn<Mascara, String> colExposta;
 
     private final MascaraDAO dao = new MascaraDAO();
 
     @FXML
     public void initialize() {
+        colMaterial.setCellValueFactory(new PropertyValueFactory<>("material"));
+        colOrigem.setCellValueFactory(new PropertyValueFactory<>("origemCultural"));
+        colExposta.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().isEstaExposta() ? "Sim" : "Não"));
+
         atualizarListaNaTela();
     }
 
@@ -67,15 +78,7 @@ public class MascaraController {
     }
 
     private void atualizarListaNaTela() {
-        List<Mascara> lista = dao.getLista();
-        StringBuilder sb = new StringBuilder();
-        for (Mascara m : lista) {
-            sb.append("Material: ").append(m.getMaterial())
-                    .append(" | Origem: ").append(m.getOrigemCultural())
-                    .append(" | Exposta: ").append(m.isEstaExposta() ? "Sim" : "Não")
-                    .append("\n----------------------------------------\n");
-        }
-        txtAreaLista.setText(sb.toString());
+        tabelaMascaras.setItems(FXCollections.observableArrayList(dao.getLista()));
     }
 
     private void limparCampos() {
